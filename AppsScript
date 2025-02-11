@@ -1,0 +1,46 @@
+function copiarEApagarCodigos() {
+  var sheetIndividual = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Individual Sales");
+  var sheetDaily = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Daily Sales");
+
+  // Verify if the sheets exist. 
+  if (!sheetIndividual || !sheetDaily) {
+    SpreadsheetApp.getUi().alert("One of the sheets weren't find it. Verify their name!");
+    return;
+  }
+  
+  var rangeIndividual = sheetIndividual.getRange("A2:A16"); 
+  var data = rangeIndividual.getValues();
+  
+  // Verify if have data in the range.
+  if (data.length === 0) {
+    SpreadsheetApp.getUi().alert("No data find it in this specific range in 'Individual Sales.");
+    return;
+  }
+  
+  // Find the next black line at the Column A of "Daily Sales". 
+  var nextRow = sheetDaily.getRange("A:A").getValues().filter(String).length + 1;
+  
+  
+  // Copy the data from 'Individual Sales' for the next blank line in 'Daily Sales' if the column A isn't empty.
+  for (var i = 0; i < data.length; i++) {
+    if (data[i][0] !== '') { // Verify if the cell in Column A isn't empty. 
+      sheetDaily.getRange(nextRow, 1, 1, data[i].length).setValues([data[i]]);
+      nextRow++;
+    }
+  }
+  
+  // Clear the copied data at 'Individual Sales' 
+  rangeIndividual.clear();
+  
+  // Final message!
+  SpreadsheetApp.getUi().alert("Transaction Finished! The products have been sent to 'Daily Sales'.");
+}
+
+function onOpen() { 
+  var ui = SpreadsheetApp.getUi();
+  ui.createMenu('Finish Transaction')
+    .addItem('>Send to Daily Sales', 'copiarEApagarCodigos')
+    .addToUi();
+}
+
+
