@@ -1,4 +1,4 @@
-function copiarEApagarCodigos() {
+function DailySales() {
   var sheetIndividual = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Individual Sales");
   var sheetDaily = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Daily Sales");
 
@@ -38,9 +38,7 @@ function copiarEApagarCodigos() {
 
 function onOpen() { 
   var ui = SpreadsheetApp.getUi();
-  ui.createMenu('Finish Transaction')
-    .addItem('>Send to Daily Sales', 'copiarEApagarCodigos')
+  ui.createMenu('✅ Finish Transaction')
+    .addItem('➡️ Send to Daily Sales', 'DailySales')
     .addToUi();
 }
-
-
